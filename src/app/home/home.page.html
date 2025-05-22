@@ -1,20 +1,57 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="registroForm" (ngSubmit)="enviarFormulario()">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="submitted && registroForm.controls['nombre'].invalid">
+      <p class="ion-padding-start">El nombre es obligatorio.</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email" formControlName="correo"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="submitted && registroForm.controls['correo'].invalid">
+      <p class="ion-padding-start">Correo inválido o vacío.</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="submitted && registroForm.controls['password'].invalid">
+      <p class="ion-padding-start">La contraseña es obligatoria (mínimo 6 caracteres).</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Confirmar Contraseña</ion-label>
+      <ion-input type="password" formControlName="confirmarPassword"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="submitted && registroForm.errors?.['passwordMismatch']">
+      <p class="ion-padding-start">Las contraseñas no coinciden.</p>
+    </ion-text>
+
+
+    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="registroForm.invalid">
+      Registrar
+    </ion-button>
+  </form>
+
+  <ion-card *ngIf="datos">
+    <ion-card-header>
+      <ion-card-title>Resumen</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Nombre:</strong> {{ datos?.nombre }}</p>
+      <p><strong>Correo:</strong> {{ datos?.correo }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
